@@ -14,7 +14,7 @@ class TodosView {
 	create({
 		id,
 		text,
-		revision
+		revision,
 	}: {
 		id: string;
 		text: string;

@@ -46,7 +46,7 @@ const completeTodo = ({
 		try {
 			eventStore.append({
 				eventCandidate: completed,
-				expectedRevision
+				expectedRevision,
 			});
 		} catch (ex: unknown) {
 			if (!(ex instanceof Error)) {

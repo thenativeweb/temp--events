@@ -36,7 +36,7 @@ const rememberTodo = ({
 		try {
 			eventStore.append({
 				eventCandidate: remembered,
-				expectedRevision: null
+				expectedRevision: null,
 			});
 		} catch (ex: unknown) {
 			if (!(ex instanceof Error)) {

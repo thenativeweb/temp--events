@@ -58,7 +58,7 @@ const editTodo = ({
 		try {
 			eventStore.append({
 				eventCandidate: edited,
-				expectedRevision
+				expectedRevision,
 			});
 		} catch (ex: unknown) {
 			if (!(ex instanceof Error)) {

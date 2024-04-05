@@ -1,6 +1,6 @@
 import { EventEmitter } from 'node:events';
 import { Event } from '../events/Event';
-import { EventCandidate } from '../events/EventCandidate';
+import type { EventCandidate } from '../events/EventCandidate';
 import type { EventData } from '../events/EventData';
 import type { EventStore } from './EventStore';
 
@@ -14,7 +14,7 @@ class InMemory extends EventEmitter implements EventStore {
 
 	public append({
 		eventCandidate,
-		expectedRevision
+		expectedRevision,
 	}: {
 		eventCandidate: EventCandidate<EventData>;
 		expectedRevision: number | null;

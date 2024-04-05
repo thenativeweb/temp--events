@@ -6,7 +6,7 @@ import type { EventData } from '../events/EventData';
 interface EventStore extends EventEmitter {
 	append({
 		eventCandidate,
-		expectedRevision
+		expectedRevision,
 	}: {
 		eventCandidate: EventCandidate<EventData>;
 		expectedRevision: number | null;

@@ -22,7 +22,7 @@ const runProjections = ({
 				todosView.create({
 					id,
 					text,
-					revision: event.getId()
+					revision: event.getId(),
 				});
 				statisticsView.increment({ key: 'remembered-todos' });
 				break;
