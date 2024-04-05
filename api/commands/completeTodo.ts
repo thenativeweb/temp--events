@@ -2,7 +2,7 @@ import type { Handler } from 'express';
 import { flaschenpost } from 'flaschenpost';
 import { Completed } from '../../domain/Completed';
 import { Todo } from '../../domain/Todo';
-import { Event } from '../../events/Event';
+import { EventCandidate } from '../../events/EventCandidate';
 import type { EventStore } from '../../eventstore/EventStore';
 
 const logger = flaschenpost.getLogger();
@@ -13,7 +13,7 @@ const completeTodo = ({
 	eventStore: EventStore;
 }): Handler => {
 	return (req, res) => {
-		const { id } = req.body;
+		const { id, expectedRevision } = req.body;
 		const subject = `/todo/${id}`;
 
 		logger.info('complete todo received', { id });
@@ -36,14 +36,26 @@ const completeTodo = ({
 			return;
 		}
 
-		const completed = new Event({
+		const completed = new EventCandidate({
 			subject,
 			data: new Completed(),
 		});
 
 		logger.info('completed event created', { completed });
 
-		eventStore.append({ event: completed });
+		try {
+			eventStore.append({
+				eventCandidate: completed,
+				expectedRevision
+			});
+		} catch (ex: unknown) {
+			if (!(ex instanceof Error)) {
+				throw ex;
+			}
+			logger.error(ex.message);
+			res.status(500).json({ message: ex.message });
+			return;
+		}
 
 		res.status(200).json({});
 	};

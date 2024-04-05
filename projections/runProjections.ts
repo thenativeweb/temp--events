@@ -19,7 +19,11 @@ const runProjections = ({
 				const id = event.getSubject().split('/')[2];
 				const text = remembered.getText();
 
-				todosView.create({ id, text });
+				todosView.create({
+					id,
+					text,
+					revision: event.getId()
+				});
 				statisticsView.increment({ key: 'remembered-todos' });
 				break;
 			}
@@ -32,6 +36,7 @@ const runProjections = ({
 					where: todo => todo.id === id,
 					set: todo => {
 						todo.text = text;
+						todo.revision = event.getId();
 					},
 				});
 				break;

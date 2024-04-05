@@ -1,6 +1,7 @@
 interface TodoRow {
 	id: string;
 	text: string;
+	revision: number;
 }
 
 class TodosView {
@@ -13,11 +14,13 @@ class TodosView {
 	create({
 		id,
 		text,
+		revision
 	}: {
 		id: string;
 		text: string;
+		revision: number;
 	}): void {
-		this.#todos.push({ id, text });
+		this.#todos.push({ id, text, revision });
 	}
 
 	readAll(): TodoRow[] {

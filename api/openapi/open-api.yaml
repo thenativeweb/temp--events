@@ -59,10 +59,14 @@ paths:
                 text:
                   type: string
                   minLength: 1
+                expectedRevision:
+                  type: integer
+                  minimum: 0
               additionalProperties: false
               required:
                 - id
                 - text
+                - expectedRevision
       responses:
         "200":
           description: The todo was edited.
@@ -91,9 +95,13 @@ paths:
                 id:
                   type: string
                   format: uuid
+                expectedRevision:
+                  type: integer
+                  minimum: 0
               additionalProperties: false
               required:
                 - id
+                - expectedRevision
       responses:
         "200":
           description: The todo was completed.
@@ -109,12 +117,12 @@ paths:
 
   /todos:
     get:
-      summary: Retrieves all todos.
+      summary: Retrieves all pending todos.
       tags:
         - queries
       responses:
         "200":
-          description: All todos.
+          description: All pending todos.
           content:
             application/json:
               schema:
@@ -127,6 +135,8 @@ paths:
                       format: uuid
                     text:
                       type: string
+                    revision:
+                      type: integer
 
   /statistics:
     get:

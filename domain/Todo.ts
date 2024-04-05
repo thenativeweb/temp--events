@@ -6,21 +6,29 @@ import type { Remembered } from './Remembered';
 class Todo {
 	#status: 'pending' | 'completed';
 	#text: string;
+	#revision: number | null;
 
 	public getStatus() {
 		return this.#status;
 	}
 
-	public gettext() {
+	public getText() {
 		return this.#text;
+	}
+
+	public getRevision() {
+		return this.#revision;
 	}
 
 	public constructor() {
 		this.#status = 'pending';
 		this.#text = '';
+		this.#revision = null;
 	}
 
 	public apply({ event }: { event: Event<EventData> }) {
+		this.#revision = event.getId();
+
 		switch (event.getType()) {
 			case 'io.thenativeweb.todo.remembered': {
 				const remembered = event.getData() as Remembered;

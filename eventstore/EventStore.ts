@@ -1,12 +1,15 @@
 import type { EventEmitter } from 'node:events';
 import type { Event } from '../events/Event';
+import type { EventCandidate } from '../events/EventCandidate';
 import type { EventData } from '../events/EventData';
 
 interface EventStore extends EventEmitter {
 	append({
-		event,
+		eventCandidate,
+		expectedRevision
 	}: {
-		event: Event<EventData>;
+		eventCandidate: EventCandidate<EventData>;
+		expectedRevision: number | null;
 	}): void;
 
 	getEvents({

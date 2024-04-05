@@ -1,5 +1,6 @@
 import { EventEmitter } from 'node:events';
-import type { Event } from '../events/Event';
+import { Event } from '../events/Event';
+import { EventCandidate } from '../events/EventCandidate';
 import type { EventData } from '../events/EventData';
 import type { EventStore } from './EventStore';
 
@@ -12,10 +13,28 @@ class InMemory extends EventEmitter implements EventStore {
 	}
 
 	public append({
-		event,
+		eventCandidate,
+		expectedRevision
 	}: {
-		event: Event<EventData>;
+		eventCandidate: EventCandidate<EventData>;
+		expectedRevision: number | null;
 	}): void {
+		const nextId = this.#events.length;
+
+		const event = new Event({
+			id: nextId,
+			subject: eventCandidate.getSubject(),
+			data: eventCandidate.getData(),
+		});
+
+		const latestEventIdForSubject = this.#events
+			.filter(event => event.getSubject() === eventCandidate.getSubject())
+			.reduce((latestId: null | number, event) => Math.max(latestId ?? -1, event.getId()), null);
+
+		if (expectedRevision !== latestEventIdForSubject) {
+			throw new Error('revision conflict');
+		}
+
 		this.#events.push(event);
 		this.emit('event-appended', { event });
 	}

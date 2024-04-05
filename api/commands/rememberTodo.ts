@@ -2,7 +2,7 @@ import type { Handler } from 'express';
 import { flaschenpost } from 'flaschenpost';
 import { v4 as uuid } from 'uuid';
 import { Remembered } from '../../domain/Remembered';
-import { Event } from '../../events/Event';
+import { EventCandidate } from '../../events/EventCandidate';
 import type { EventStore } from '../../eventstore/EventStore';
 
 const logger = flaschenpost.getLogger();
@@ -24,7 +24,7 @@ const rememberTodo = ({
 			return;
 		}
 
-		const remembered = new Event({
+		const remembered = new EventCandidate({
 			subject,
 			data: new Remembered({
 				text,
@@ -33,7 +33,19 @@ const rememberTodo = ({
 
 		logger.info('remembered event created', { remembered });
 
-		eventStore.append({ event: remembered });
+		try {
+			eventStore.append({
+				eventCandidate: remembered,
+				expectedRevision: null
+			});
+		} catch (ex: unknown) {
+			if (!(ex instanceof Error)) {
+				throw ex;
+			}
+			logger.error(ex.message);
+			res.status(500).json({ message: ex.message });
+			return;
+		}
 
 		res.status(200).json({ id });
 	};
