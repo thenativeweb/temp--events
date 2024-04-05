@@ -11,9 +11,21 @@ class InMemory extends EventEmitter implements EventStore {
 		this.#events = [];
 	}
 
-	public append(event: Event<EventData>): void {
+	public append({
+		event,
+	}: {
+		event: Event<EventData>;
+	}): void {
 		this.#events.push(event);
 		this.emit('event-appended', { event });
+	}
+
+	public getEvents({
+		subject,
+	}: {
+		subject: string;
+	}): Event<EventData>[] {
+		return this.#events.filter(event => event.getSubject() === subject);
 	}
 }
 

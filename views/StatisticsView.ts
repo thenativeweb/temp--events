@@ -28,7 +28,7 @@ class StatisticsView {
 		}
 
 		this.update({
-			where: rowKey => rowKey === key,
+			where: row => row.key === key,
 			set: row => {
 				row.value++;
 			},
@@ -43,11 +43,11 @@ class StatisticsView {
 		where,
 		set,
 	}: {
-		where: (key: string) => boolean;
+		where: (row: StatisticsRow) => boolean;
 		set: (row: StatisticsRow) => void;
 	}): void {
 		for (const row of this.#statistics) {
-			if (where(row.key)) {
+			if (where(row)) {
 				set(row);
 			}
 		}

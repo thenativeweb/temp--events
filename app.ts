@@ -16,10 +16,13 @@ const eventStore: EventStore = new InMemory();
 const todosView = new TodosView();
 const statisticsView = new StatisticsView();
 
-eventStore.on('event-appended', runProjections({
-	todosView,
-	statisticsView
-}));
+eventStore.on(
+	'event-appended',
+	runProjections({
+		todosView,
+		statisticsView,
+	}),
+);
 
 const api = getApi({ eventStore, todosView, statisticsView });
 const server = http.createServer(api);

@@ -22,8 +22,16 @@ const runProjections = ({
 				statisticsView.increment({ key: 'remembered-todos' });
 				break;
 			}
+			case 'io.thenativeweb.todo.completed': {
+				const id = event.getSubject().split('/')[2];
+
+				todosView.delete({
+					where: todo => todo.id === id,
+				});
+				break;
+			}
 			default: {
-				// ...
+				throw new Error('unknown event type');
 			}
 		}
 	};

@@ -41,6 +41,37 @@ paths:
         "400":
           description: Bad request
 
+  /complete-todo:
+    post:
+      summary: Completes a todo.
+      tags:
+        - commands
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+              additionalProperties: false
+              required:
+                - id
+      responses:
+        "200":
+          description: The todo was completed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+        "400":
+          description: Bad request.
+        "404":
+          description: Not found.
+
   /todos:
     get:
       summary: Retrieves all todos.

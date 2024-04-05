@@ -15,6 +15,7 @@ const rememberTodo = ({
 	return (req, res) => {
 		const { text } = req.body;
 		const id = uuid();
+		const subject = `/todo/${id}`;
 
 		logger.info('remember todo received', { id, text });
 
@@ -24,7 +25,7 @@ const rememberTodo = ({
 		}
 
 		const remembered = new Event({
-			subject: `/todo/${id}`,
+			subject,
 			data: new Remembered({
 				text,
 			}),
@@ -32,7 +33,7 @@ const rememberTodo = ({
 
 		logger.info('remembered event created', { remembered });
 
-		eventStore.append(remembered);
+		eventStore.append({ event: remembered });
 
 		res.status(200).json({ id });
 	};

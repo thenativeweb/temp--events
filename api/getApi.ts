@@ -3,6 +3,7 @@ import type { Application } from 'express';
 import type { EventStore } from '../eventstore/EventStore';
 import type { StatisticsView } from '../views/StatisticsView';
 import type { TodosView } from '../views/TodosView';
+import { completeTodo } from './commands/completeTodo';
 import { rememberTodo } from './commands/rememberTodo';
 import { getOpenApi } from './openapi/getOpenApi';
 import { getStatistics } from './queries/getStatistics';
@@ -23,6 +24,7 @@ const getApi = ({
 
 	// Commands
 	api.post('/api/remember-todo', rememberTodo({ eventStore }));
+	api.post('/api/complete-todo', completeTodo({ eventStore }));
 
 	// Queries
 	api.get('/api/todos', getTodos({ todosView }));

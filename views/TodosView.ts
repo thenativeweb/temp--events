@@ -23,6 +23,14 @@ class TodosView {
 	readAll(): TodoRow[] {
 		return this.#todos;
 	}
+
+	delete({
+		where,
+	}: {
+		where: (row: TodoRow) => boolean;
+	}): void {
+		this.#todos = this.#todos.filter(row => !where(row));
+	}
 }
 
 export { TodosView };
