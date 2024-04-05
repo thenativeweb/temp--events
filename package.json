@@ -1,0 +1,22 @@
+{
+	"name": "mf-demo",
+	"version": "1.0.0",
+	"dependencies": {
+		"@types/express": "4.17.21",
+		"@types/uuid": "9.0.8",
+		"express": "4.19.2",
+		"flaschenpost": "5.1.1",
+		"processenv": "3.0.9",
+		"uuid": "9.0.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.6.3",
+		"ts-node": "10.9.2",
+		"typescript": "5.4.3"
+	},
+	"scripts": {
+		"analyze": "npx biome ci .",
+		"dev": "npx ts-node app.ts",
+		"format": "npx biome format . --write"
+	}
+}

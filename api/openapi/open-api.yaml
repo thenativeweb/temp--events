@@ -1,0 +1,83 @@
+openapi: 3.0.0
+
+info:
+  title: mf-demo
+  description: A simple todo application.
+  version: 1.0.0
+
+servers:
+  - url: /api
+
+paths:
+  /remember-todo:
+    post:
+      summary: Remembers a todo.
+      tags:
+        - commands
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+              additionalProperties: false
+              required:
+                - text
+      responses:
+        "200":
+          description: The ID of the remembered todo.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+        "400":
+          description: Bad request
+
+  /todos:
+    get:
+      summary: Retrieves all todos.
+      tags:
+        - queries
+      responses:
+        "200":
+          description: All todos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    text:
+                      type: string
+
+  /statistics:
+    get:
+      summary: Retrieves statistics.
+      tags:
+        - queries
+      responses:
+        "200":
+          description: Statistics.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                    value:
+                      type: integer
