@@ -4,6 +4,7 @@ import type { EventStore } from '../eventstore/EventStore';
 import type { StatisticsView } from '../views/StatisticsView';
 import type { TodosView } from '../views/TodosView';
 import { completeTodo } from './commands/completeTodo';
+import { editTodo } from './commands/editTodo';
 import { rememberTodo } from './commands/rememberTodo';
 import { getOpenApi } from './openapi/getOpenApi';
 import { getStatistics } from './queries/getStatistics';
@@ -24,6 +25,7 @@ const getApi = ({
 
 	// Commands
 	api.post('/api/remember-todo', rememberTodo({ eventStore }));
+	api.post('/api/edit-todo', editTodo({ eventStore }));
 	api.post('/api/complete-todo', completeTodo({ eventStore }));
 
 	// Queries

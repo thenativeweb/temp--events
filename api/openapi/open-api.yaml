@@ -41,6 +41,41 @@ paths:
         "400":
           description: Bad request
 
+  /edit-todo:
+    post:
+      summary: Edits a todo.
+      tags:
+        - commands
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                text:
+                  type: string
+                  minLength: 1
+              additionalProperties: false
+              required:
+                - id
+                - text
+      responses:
+        "200":
+          description: The todo was edited.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+        "400":
+          description: Bad request.
+        "404":
+          description: Not found.
+
   /complete-todo:
     post:
       summary: Completes a todo.

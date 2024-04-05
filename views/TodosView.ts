@@ -24,6 +24,22 @@ class TodosView {
 		return this.#todos;
 	}
 
+	update({
+		where,
+		set,
+	}: {
+		where: (row: TodoRow) => boolean;
+		set: (row: TodoRow) => void;
+	}): void {
+		this.#todos = this.#todos.map(row => {
+			if (where(row)) {
+				set(row);
+			}
+
+			return row;
+		});
+	}
+
 	delete({
 		where,
 	}: {

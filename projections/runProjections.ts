@@ -1,3 +1,4 @@
+import type { Edited } from '../domain/Edited';
 import type { Remembered } from '../domain/Remembered';
 import type { Event } from '../events/Event';
 import type { EventData } from '../events/EventData';
@@ -20,6 +21,19 @@ const runProjections = ({
 
 				todosView.create({ id, text });
 				statisticsView.increment({ key: 'remembered-todos' });
+				break;
+			}
+			case 'io.thenativeweb.todo.edited': {
+				const edited = event.getData() as Edited;
+				const id = event.getSubject().split('/')[2];
+				const text = edited.getText();
+
+				todosView.update({
+					where: todo => todo.id === id,
+					set: todo => {
+						todo.text = text;
+					},
+				});
 				break;
 			}
 			case 'io.thenativeweb.todo.completed': {
