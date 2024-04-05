@@ -6,7 +6,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: /api
+  - url: http://localhost:3000/api
 
 paths:
   /remember-todo:

@@ -2,8 +2,10 @@
 	"name": "mf-demo",
 	"version": "1.0.0",
 	"dependencies": {
+		"@types/cors": "2.8.17",
 		"@types/express": "4.17.21",
 		"@types/uuid": "9.0.8",
+		"cors": "2.8.5",
 		"express": "4.19.2",
 		"flaschenpost": "5.1.1",
 		"processenv": "3.0.9",

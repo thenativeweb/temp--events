@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { json } from 'express';
 import type { Application } from 'express';
 import type { EventStore } from '../eventstore/EventStore';
@@ -21,6 +22,7 @@ const getApi = ({
 }): Application => {
 	const api = express();
 
+	api.use(cors());
 	api.use(json());
 
 	// Commands
